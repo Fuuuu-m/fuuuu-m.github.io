@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Step by Step">
+  <meta name="description" content="在Ubuntu 18.04 搭建OP-TEE 运行环境">
 <meta property="og:type" content="article">
-<meta property="og:title" content="optee">
+<meta property="og:title" content="OP-TEE 运行环境搭建">
 <meta property="og:url" content="http://example.com/2022/01/07/optee/index.html">
 <meta property="og:site_name" content="Notes">
-<meta property="og:description" content="Step by Step">
+<meta property="og:description" content="在Ubuntu 18.04 搭建OP-TEE 运行环境">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-06T16:33:21.000Z">
-<meta property="article:modified_time" content="2022-01-06T16:33:21.656Z">
+<meta property="article:modified_time" content="2022-01-07T16:50:35.739Z">
 <meta property="article:author" content="Fuuuu">
 <meta name="twitter:card" content="summary">
 
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>optee | Notes</title>
+  <title>OP-TEE 运行环境搭建 | Notes</title>
   
 
 
@@ -118,9 +118,9 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
-        <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-categories">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
@@ -170,7 +170,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          optee
+          OP-TEE 运行环境搭建
         </h1>
 
         <div class="post-meta">
@@ -182,8 +182,29 @@
 
               <time title="创建时间：2022-01-07 00:33:21" itemprop="dateCreated datePublished" datetime="2022-01-07T00:33:21+08:00">2022-01-07</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-08 00:50:35" itemprop="dateModified" datetime="2022-01-08T00:50:35+08:00">2022-01-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TEE/" itemprop="url" rel="index"><span itemprop="name">TEE</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TEE/OPTEE/" itemprop="url" rel="index"><span itemprop="name">OPTEE</span></a>
+                </span>
+            </span>
 
           
+            <div class="post-description">在Ubuntu 18.04 搭建OP-TEE 运行环境</div>
 
         </div>
       </header>
@@ -194,7 +215,37 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h2 id="OP-TEE"><a href="#OP-TEE" class="headerlink" title="OP-TEE"></a>OP-TEE</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><a target="_blank" rel="noopener" href="https://github.com/OP-TEE">OP-TEE</a>(Open source project Trusted Execution Environment)，是开源的TEE的解决方案。</p>
+<h3 id="搭建运行环境"><a href="#搭建运行环境" class="headerlink" title="搭建运行环境"></a>搭建运行环境</h3><p><strong>系统环境</strong>Ubuntu 18.04</p>
+<h4 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h4><p>主要参照<a target="_blank" rel="noopener" href="https://optee.readthedocs.io/en/latest/general/index.html">OP-TEE 文档</a>。但依旧会有坑，会在相应的步骤中注明。</p>
+<h5 id="1-安装依赖库"><a href="#1-安装依赖库" class="headerlink" title="1. 安装依赖库"></a>1. 安装依赖库</h5><ol>
+<li>安装i386架构包，并更新包管理器</li>
+</ol>
+<figure class="highlight shell"><figcaption><span>l</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg --add-architecture i386</span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>安装将要用到的软件包</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install android-tools-adb android-tools-fastboot autoconf \</span><br><span class="line">        automake bc bison build-essential ccache codespell \</span><br><span class="line">        cscope curl device-tree-compiler expect flex ftp-upload gdisk iasl \</span><br><span class="line">        libattr1-dev libcap-dev libcap-ng-dev \</span><br><span class="line">        libfdt-dev libftdi-dev libglib2.0-dev libgmp-dev libhidapi-dev \</span><br><span class="line">        libmpc-dev libncurses5-dev libpixman-1-dev libssl-dev libtool make \</span><br><span class="line">        mtools netcat ninja-build python-crypto python3-crypto python-pyelftools \</span><br><span class="line">        python3-pycryptodome python3-pyelftools python-serial python3-serial \</span><br><span class="line">        rsync unzip uuid-dev xdg-utils xterm xz-utils zlib1g-dev repo</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-下载源码"><a href="#2-下载源码" class="headerlink" title="2. 下载源码"></a>2. 下载源码</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 自行选择配置，此处选择的是QEMU v7，对应的是default.xml。选择其他的环境，可在官方文档中找到对应的xml文件名称。</span></span><br><span class="line">mkdir optee</span><br><span class="line">cd optee</span><br><span class="line"><span class="meta">#</span><span class="bash"> 这里使用清华镜像快速拉取源码</span></span><br><span class="line">repo init -u https://github.com/OP-TEE/manifest.git -m default.xml --repo-url=https://mirrors.tuna.tsinghua.edu.cn/git/git-repo -b 3.8.0</span><br><span class="line">repo sync</span><br></pre></td></tr></table></figure>
+
+<p><strong>注：</strong></p>
+<ul>
+<li>若是ubuntu 20.04 无法直接使用<code>sudo apt-get install repo</code>安装<code>repo</code>库</li>
+<li>若在<code>repo init</code> 时报错SyntaxError: invalid syntax，是Python版本的问题</li>
+<li>有时会在<code>repo sync</code>时，会出现某个库拉取失败，可以直接下载库解压到下面对应的文件夹中</li>
+</ul>
+<p>同步后当前文件夹包含</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- build</span><br><span class="line">- buildroot</span><br><span class="line">- linux</span><br><span class="line">- optee_client</span><br><span class="line">- optee_examples</span><br><span class="line">- optee_os</span><br><span class="line">- optee_test</span><br><span class="line">- out</span><br><span class="line">- out-br</span><br><span class="line">- qemu</span><br><span class="line">- soc_term</span><br><span class="line">- toolchains</span><br><span class="line">- trusted-firmware-a </span><br><span class="line">- u-boot</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-下载OP-TEE的toolchain"><a href="#3-下载OP-TEE的toolchain" class="headerlink" title="3. 下载OP-TEE的toolchain"></a>3. 下载OP-TEE的toolchain</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd build</span><br><span class="line">make toolchains</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-编译QEMU"><a href="#4-编译QEMU" class="headerlink" title="4. 编译QEMU"></a>4. 编译QEMU</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make run</span><br></pre></td></tr></table></figure>
+
+<p>编译成功后会出现新的两个Terminal，说明安装成功。</p>
+<p>在Normal World的Terminal中，会提示”buildroot login”的输入提示，输入”root”，再输入”xtest”，最后输出”TEE test application done!” 说明测试成功。</p>
+
     </div>
 
     
@@ -207,13 +258,6 @@
 
 
         
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2022/01/06/hello-world/" rel="prev" title="Hello World">
-      <i class="fa fa-chevron-left"></i> Hello World
-    </a></div>
-      <div class="post-nav-item"></div>
-    </div>
       </footer>
     
   </article>
@@ -271,6 +315,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#OP-TEE"><span class="nav-number">1.</span> <span class="nav-text">OP-TEE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="nav-number">1.2.</span> <span class="nav-text">搭建运行环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.2.1.</span> <span class="nav-text">搭建步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%BA%93"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">1. 安装依赖库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E4%B8%8B%E8%BD%BD%E6%BA%90%E7%A0%81"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">2. 下载源码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E4%B8%8B%E8%BD%BDOP-TEE%E7%9A%84toolchain"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">3. 下载OP-TEE的toolchain</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-%E7%BC%96%E8%AF%91QEMU"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">4. 编译QEMU</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -284,9 +329,15 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">1</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
 </div>
